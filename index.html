@@ -19,6 +19,7 @@
             height: 0;
             overflow: hidden;
             max-width: 100%;
+            background-color: #000; /* Fondo negro para el contenedor del video */
         }
 
         .video-container video {
@@ -29,6 +30,7 @@
             height: 100%;
             object-fit: cover;
             border-radius: 10px;
+            display: block; /* Asegura que no haya espacios en blanco */
         }
 
         * {
@@ -186,7 +188,7 @@
         }
 
         .app-img {
-            max-width: 50%;
+            max-width: 80%;
             margin-top: 40px;
             border-radius: 10px;
             box-shadow: 0 15px 30px rgba(0,0,0,0.1);
@@ -457,8 +459,8 @@
         <a href="#" class="btn">Comprar ahora</a>
         <a href="#features" class="btn btn-secondary">Descubrir más</a>
 
-        <div class="video-container" style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.2);">
-            <video controls width="100%" poster="/api/placeholder/800/450">
+        <div class="video-container" style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.2); background-color: #000;">
+            <video class="video-player" preload="metadata" data-video-source="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4" controls style="display: block; width: 100%; height: auto;">
                 <source src="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4">
                 Tu navegador no soporta videos HTML5.
             </video>
@@ -504,15 +506,127 @@
     </div>
 </section>
 
+<section class="video-section" id="video">
+    <div class="container" style="padding: 100px 0; background-color: var(--white); text-align: center;">
+        <h2 class="section-title">Descubre cómo funciona</h2>
+        <p style="font-size: 20px; max-width: 700px; margin: 0 auto 40px;">Mira este video para entender cómo el Tractive GPS puede mantener a tu perro seguro y a ti tranquilo.</p>
+        <div class="video-container" style="max-width: 800px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.1); background-color: #000;">
+            <video class="video-player" preload="metadata" data-video-source="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4" controls style="display: block; width: 100%; height: auto;">
+                <source src="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4">
+                Tu navegador no soporta videos HTML5.
+            </video>
+        </div>
+    </div>
+</section>
+
 <section class="app-showcase" id="app">
     <div class="container">
         <h2 class="section-title">Una app intuitiva y potente</h2>
         <p>Controla todo desde la aplicación Tractive GPS: localización en tiempo real, historial de ubicaciones, zonas seguras, seguimiento de actividad y mucho más.</p>
-        <img  src="https://images.onlinepets.com/product-images/catalog/tractive_gps_tracker_incl_activity_monitoring__hond_134968_2000_none.jpg?auto=format" alt="Aplicación Tractive GPS" class="app-img">
+        <img src="/api/placeholder/800/450" alt="Aplicación Tractive GPS" class="app-img">
     </div>
 </section>
 
+<section class="testimonials" id="testimonials">
+    <div class="container">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Mi perro siempre intenta escaparse durante los paseos. Gracias a Tractive GPS, ahora puedo localizarlo inmediatamente y estar tranquila."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Laura Martínez</h4>
+                        <p>Dueña de un Border Collie</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Increíble dispositivo. Es pequeño, ligero y la batería dura mucho más de lo que esperaba. La app es muy completa y fácil de usar."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Carlos Rodríguez</h4>
+                        <p>Dueño de un Beagle</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Mi perro se perdió en el bosque y gracias a Tractive pude encontrarlo en minutos. Es una inversión que vale cada céntimo."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Ana López</h4>
+                        <p>Dueña de un Labrador</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Lo uso para controlar que mi perro recibe suficiente ejercicio diario. La función de seguimiento de actividad es genial para mantenerlo saludable."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Javier García</h4>
+                        <p>Dueño de un Golden Retriever</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
+<section class="pricing" id="pricing">
+    <div class="container">
+        <h2 class="section-title">Planes sencillos y transparentes</h2>
+        <p>Elige el plan que mejor se adapte a tus necesidades</p>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Plan Basic</h3>
+                    <div class="pricing-price">4,99€ <span>/mes</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Localización en tiempo real</li>
+                    <li>Alertas de escape</li>
+                    <li>Historial de ubicaciones (24h)</li>
+                    <li>Seguimiento básico de actividad</li>
+                    <li>Soporte por email</li>
+                </ul>
+                <a href="#" class="btn">Elegir plan</a>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Plan Premium</h3>
+                    <div class="pricing-price">9,99€ <span>/mes</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Localización en tiempo real</li>
+                    <li>Alertas de escape</li>
+                    <li>Historial de ubicaciones ilimitado</li>
+                    <li>Seguimiento avanzado de actividad</li>
+                    <li>Compartir ubicación con familia</li>
+                    <li>Modo ahorro de batería</li>
+                    <li>Soporte prioritario 24/7</li>
+                </ul>
+                <a href="#" class="btn">Elegir plan</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Plan Familiar</h3>
+                    <div class="pricing-price">14,99€ <span>/mes</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Todo lo incluido en Premium</li>
+                    <li>Hasta 5 dispositivos</li>
+                    <li>Dashboard familiar</li>
+                    <li>Comparativas entre mascotas</li>
+                    <li>Soporte VIP</li>
+                </ul>
+                <a href="#" class="btn">Elegir plan</a>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="cta">
     <div class="container">
@@ -567,5 +681,41 @@
         </div>
     </div>
 </footer>
+<!-- Script para el manejo de video -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Función para cargar miniaturas de video
+        const videos = document.querySelectorAll('.video-player');
+
+        videos.forEach(video => {
+            // Crear thumbnail basado en el primer frame del video
+            video.addEventListener('loadeddata', function() {
+                if (video.readyState >= 2) {
+                    // El video ha cargado suficientes datos para mostrar el primer frame
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    // Usar el primer frame como poster
+                    try {
+                        const dataURL = canvas.toDataURL('image/jpeg');
+                        video.setAttribute('poster', dataURL);
+                    } catch(e) {
+                        console.error('Error creando poster del video:', e);
+                    }
+                }
+            });
+
+            // Pre-cargar un poco del video para generar la miniatura
+            video.preload = 'metadata';
+            // Solo cargar unos segundos para generar la miniatura
+            video.addEventListener('loadedmetadata', function() {
+                video.currentTime = 1; // Ir a 1 segundo dentro del video para la imagen de portada
+            });
+        });
+    });
+</script>
 </body>
 </html>
