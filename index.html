@@ -460,7 +460,7 @@
         <a href="#features" class="btn btn-secondary">Descubrir más</a>
 
         <div class="video-container" style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.2); background-color: #000;">
-            <video controls width="100%" poster="https://static.wixstatic.com/media/3e3a39_640782332e9349958e4e2a238aafa395~mv2.jpg/v1/fill/w_568,h_312,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e3a39_640782332e9349958e4e2a238aafa395~mv2.jpg" style="display: block; width: 100%; height: auto;">
+            <video class="video-player" preload="metadata" data-video-source="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4" controls style="display: block; width: 100%; height: auto;">
                 <source src="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4">
                 Tu navegador no soporta videos HTML5.
             </video>
@@ -511,7 +511,7 @@
         <h2 class="section-title">Descubre cómo funciona</h2>
         <p style="font-size: 20px; max-width: 700px; margin: 0 auto 40px;">Mira este video para entender cómo el Tractive GPS puede mantener a tu perro seguro y a ti tranquilo.</p>
         <div class="video-container" style="max-width: 800px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.1); background-color: #000;">
-            <video controls width="100%" poster="https://static.wixstatic.com/media/3e3a39_640782332e9349958e4e2a238aafa395~mv2.jpg/v1/fill/w_568,h_312,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/3e3a39_640782332e9349958e4e2a238aafa395~mv2.jpg" style="display: block; width: 100%; height: auto;">
+            <video class="video-player" preload="metadata" data-video-source="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4" controls style="display: block; width: 100%; height: auto;">
                 <source src="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4">
                 Tu navegador no soporta videos HTML5.
             </video>
@@ -681,5 +681,41 @@
         </div>
     </div>
 </footer>
+<!-- Script para el manejo de video -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Función para cargar miniaturas de video
+        const videos = document.querySelectorAll('.video-player');
+
+        videos.forEach(video => {
+            // Crear thumbnail basado en el primer frame del video
+            video.addEventListener('loadeddata', function() {
+                if (video.readyState >= 2) {
+                    // El video ha cargado suficientes datos para mostrar el primer frame
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+                    // Usar el primer frame como poster
+                    try {
+                        const dataURL = canvas.toDataURL('image/jpeg');
+                        video.setAttribute('poster', dataURL);
+                    } catch(e) {
+                        console.error('Error creando poster del video:', e);
+                    }
+                }
+            });
+
+            // Pre-cargar un poco del video para generar la miniatura
+            video.preload = 'metadata';
+            // Solo cargar unos segundos para generar la miniatura
+            video.addEventListener('loadedmetadata', function() {
+                video.currentTime = 1; // Ir a 1 segundo dentro del video para la imagen de portada
+            });
+        });
+    });
+</script>
 </body>
 </html>
