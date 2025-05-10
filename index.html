@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tractive GPS para Perros | Localización en tiempo real sin límites</title>
+    <style>
+        :root {
+            --primary: #007aff;
+            --secondary: #ff9500;
+            --dark: #333;
+            --light: #f8f9fa;
+            --white: #ffffff;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .hero {
+            padding: 180px 0 100px;
+            background: linear-gradient(135deg, #e0f7ff 0%, #f0f8ff 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--dark);
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #555;
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary);
+            margin-left: 15px;
+        }
+
+        .features {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background-color: rgba(0, 122, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: var(--primary);
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+
+        .app-showcase {
+            padding: 100px 0;
+            background-color: var(--light);
+            text-align: center;
+        }
+
+        .app-img {
+            max-width: 80%;
+            margin-top: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .testimonials {
+            padding: 100px 0;
+            background-color: var(--white);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: var(--light);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            background-color: #ddd;
+        }
+
+        .author-info h4 {
+            margin-bottom: 5px;
+        }
+
+        .author-info p {
+            color: #777;
+        }
+
+        .pricing {
+            padding: 100px 0;
+            background-color: var(--light);
+            text-align: center;
+        }
+
+        .pricing-cards {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .pricing-card {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 40px 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            flex: 1;
+            max-width: 350px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .pricing-card.featured::before {
+            content: 'Más popular';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--secondary);
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .pricing-header {
+            margin-bottom: 30px;
+        }
+
+        .pricing-name {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .pricing-price {
+            font-size: 40px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .pricing-price span {
+            font-size: 16px;
+            color: #777;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--primary);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .cta {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, #0056b3 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .cta p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+        }
+
+        .cta .btn {
+            background-color: white;
+            color: var(--primary);
+        }
+
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #aaa;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #444;
+            color: #aaa;
+        }
+
+        @media (max-width: 992px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-cards {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .pricing-card {
+                max-width: 100%;
+                margin-bottom: 30px;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            .btn {
+                display: block;
+                margin: 15px auto;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav class="navbar">
+            <div class="logo">Tractive</div>
+            <ul class="nav-links">
+                <li><a href="#features">Características</a></li>
+                <li><a href="#video">Video</a></li>
+                <li><a href="#app">App</a></li>
+                <li><a href="#testimonials">Testimonios</a></li>
+                <li><a href="#pricing">Precios</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Rastreo GPS para perros en tiempo real</h1>
+        <p>Nunca pierdas de vista a tu mejor amigo. Localiza a tu perro en cualquier momento y lugar con el rastreador GPS más avanzado y ligero del mercado.</p>
+        <a href="#" class="btn">Comprar ahora</a>
+        <a href="#features" class="btn btn-secondary">Descubrir más</a>
+
+        <div class="video-container" style="margin-top: 40px; max-width: 800px; margin-left: auto; margin-right: auto; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.2);">
+            <video controls width="100%" poster="/api/placeholder/800/450">
+                <source src="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4">
+                Tu navegador no soporta videos HTML5.
+            </video>
+        </div>
+    </div>
+</section>
+
+<section class="features" id="features">
+    <div class="container">
+        <h2 class="section-title">Características Principales</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📍</div>
+                <h3>Localización en tiempo real</h3>
+                <p>Sigue los movimientos de tu perro en tiempo real con actualizaciones cada 2-3 segundos en modo LIVE.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌎</div>
+                <h3>Cobertura sin límites</h3>
+                <p>Funciona en más de 175 países sin límite de distancia gracias a su conectividad móvil integrada.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Batería de larga duración</h3>
+                <p>Hasta 7 días de autonomía con una sola carga, dependiendo del uso y la intensidad de señal.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Alertas de escape</h3>
+                <p>Recibe notificaciones instantáneas cuando tu perro salga de las zonas seguras que hayas definido.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💦</div>
+                <h3>100% resistente al agua</h3>
+                <p>Diseñado para soportar cualquier aventura, incluso si tu perro decide darse un baño.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Seguimiento de actividad</h3>
+                <p>Monitoriza el ejercicio diario de tu mascota y compara su actividad con perros similares.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="video-section" id="video">
+    <div class="container" style="padding: 100px 0; background-color: var(--white); text-align: center;">
+        <h2 class="section-title">Descubre cómo funciona</h2>
+        <p style="font-size: 20px; max-width: 700px; margin: 0 auto 40px;">Mira este video para entender cómo el Tractive GPS puede mantener a tu perro seguro y a ti tranquilo.</p>
+        <div class="video-container" style="max-width: 800px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.1);">
+            <video controls width="100%" poster="/api/placeholder/800/450">
+                <source src="https://assets.tractive.com/assets/static/videos/tractive-dog-6/tg6_video_es.mp4" type="video/mp4">
+                Tu navegador no soporta videos HTML5.
+            </video>
+        </div>
+    </div>
+</section>
+
+<section class="app-showcase" id="app">
+    <div class="container">
+        <h2 class="section-title">Una app intuitiva y potente</h2>
+        <p>Controla todo desde la aplicación Tractive GPS: localización en tiempo real, historial de ubicaciones, zonas seguras, seguimiento de actividad y mucho más.</p>
+        <img src="/api/placeholder/800/450" alt="Aplicación Tractive GPS" class="app-img">
+    </div>
+</section>
+
+<section class="testimonials" id="testimonials">
+    <div class="container">
+        <h2 class="section-title">Lo que dicen nuestros clientes</h2>
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Mi perro siempre intenta escaparse durante los paseos. Gracias a Tractive GPS, ahora puedo localizarlo inmediatamente y estar tranquila."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Laura Martínez</h4>
+                        <p>Dueña de un Border Collie</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Increíble dispositivo. Es pequeño, ligero y la batería dura mucho más de lo que esperaba. La app es muy completa y fácil de usar."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Carlos Rodríguez</h4>
+                        <p>Dueño de un Beagle</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Mi perro se perdió en el bosque y gracias a Tractive pude encontrarlo en minutos. Es una inversión que vale cada céntimo."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Ana López</h4>
+                        <p>Dueña de un Labrador</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <p class="testimonial-text">"Lo uso para controlar que mi perro recibe suficiente ejercicio diario. La función de seguimiento de actividad es genial para mantenerlo saludable."</p>
+                <div class="testimonial-author">
+                    <div class="author-img"></div>
+                    <div class="author-info">
+                        <h4>Javier García</h4>
+                        <p>Dueño de un Golden Retriever</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="pricing" id="pricing">
+    <div class="container">
+        <h2 class="section-title">Planes sencillos y transparentes</h2>
+        <p>Elige el plan que mejor se adapte a tus necesidades</p>
+        <div class="pricing-cards">
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Plan Basic</h3>
+                    <div class="pricing-price">4,99€ <span>/mes</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Localización en tiempo real</li>
+                    <li>Alertas de escape</li>
+                    <li>Historial de ubicaciones (24h)</li>
+                    <li>Seguimiento básico de actividad</li>
+                    <li>Soporte por email</li>
+                </ul>
+                <a href="#" class="btn">Elegir plan</a>
+            </div>
+            <div class="pricing-card featured">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Plan Premium</h3>
+                    <div class="pricing-price">9,99€ <span>/mes</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Localización en tiempo real</li>
+                    <li>Alertas de escape</li>
+                    <li>Historial de ubicaciones ilimitado</li>
+                    <li>Seguimiento avanzado de actividad</li>
+                    <li>Compartir ubicación con familia</li>
+                    <li>Modo ahorro de batería</li>
+                    <li>Soporte prioritario 24/7</li>
+                </ul>
+                <a href="#" class="btn">Elegir plan</a>
+            </div>
+            <div class="pricing-card">
+                <div class="pricing-header">
+                    <h3 class="pricing-name">Plan Familiar</h3>
+                    <div class="pricing-price">14,99€ <span>/mes</span></div>
+                </div>
+                <ul class="pricing-features">
+                    <li>Todo lo incluido en Premium</li>
+                    <li>Hasta 5 dispositivos</li>
+                    <li>Dashboard familiar</li>
+                    <li>Comparativas entre mascotas</li>
+                    <li>Soporte VIP</li>
+                </ul>
+                <a href="#" class="btn">Elegir plan</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <h2>¿Listo para nunca más perder a tu perro?</h2>
+        <p>Únete a más de 400.000 dueños de mascotas que confían en Tractive GPS para mantener a sus perros seguros.</p>
+        <a href="#" class="btn">Comprar ahora</a>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Tractive</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Sobre nosotros</a></li>
+                    <li><a href="#">Prensa</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Productos</h3>
+                <ul class="footer-links">
+                    <li><a href="#">GPS para perros</a></li>
+                    <li><a href="#">GPS para gatos</a></li>
+                    <li><a href="#">Accesorios</a></li>
+                    <li><a href="#">Aplicación</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Soporte</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Centro de ayuda</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li><a href="#">Garantía</a></li>
+                    <li><a href="#">Envíos</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Legal</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Términos y condiciones</a></li>
+                    <li><a href="#">Política de privacidad</a></li>
+                    <li><a href="#">Cookies</a></li>
+                    <li><a href="#">Devoluciones</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Tractive. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+</body>
+</html>
